@@ -1,0 +1,32 @@
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local logs and experiment outputs
+logs/
+paper_eval/.cache/
+paper_eval/cache/
+paper_eval/runs/
+paper_eval/vendor/**/__pycache__/
+
+# Legacy/exploratory worktrees not required by the packaged artifact
+/bug_detector/
+/datasets/
+/datasets.rar
+/PKA/
+/reports/
+/specmind_marshmallow_eval/
+/specmind_pr_eval/
+/specmind_test/
+
+# Cloned target repositories and mutmut state
+**/.mutmut-cache/
+**/mutants/
+**/workspace/
+**/workspace_pristine/
+**/apply_workspaces/
+
+# Environment files
+.env
+*.env

@@ -1,0 +1,39 @@
+{
+  "default_base_url_env": "OPENAI_BASE_URL",
+  "default_api_key_env": "OPENAI_API_KEY",
+  "models": {
+    "llama4-scout": {
+      "display_name": "LLama4-Scout",
+      "provider": "openrouter",
+      "model_id": "meta-llama/llama-4-scout",
+      "notes": "OpenRouter model id. Use OPENROUTER_API_KEY or set OPENAI_BASE_URL=https://openrouter.ai/api/v1 with OPENAI_API_KEY.",
+      "aliases": [
+        "LLama4-Scout",
+        "Llama4-Scout",
+        "llama-4-scout",
+        "meta-llama/llama-4-scout"
+      ]
+    },
+    "gpt-5.4-mini": {
+      "display_name": "GPT-5.4-mini",
+      "provider": "openai-compatible",
+      "model_id": "gpt-5.4-mini",
+      "notes": "OpenAI-compatible model id as exposed by the configured proxy/API.",
+      "aliases": [
+        "GPT-5.4-mini",
+        "gpt54-mini"
+      ]
+    },
+    "deepseek-v4-flash": {
+      "display_name": "DeepSeek-V4-Flash",
+      "provider": "openai-compatible",
+      "model_id": "deepseek-v4-flash",
+      "notes": "OpenAI-compatible model id as exposed by the configured proxy/API.",
+      "aliases": [
+        "DeepSeek-V4-Flash",
+        "deepseek-v4",
+        "deepseek-flash"
+      ]
+    }
+  }
+}

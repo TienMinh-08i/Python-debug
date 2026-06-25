@@ -1,0 +1,3 @@
+# config/api/gemini.yaml
+name: gemini
+key: GEMINI_API_KEY

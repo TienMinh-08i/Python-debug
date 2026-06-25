@@ -1,0 +1,28 @@
+{
+  "llm": {
+    "provider": "gemini",
+    "model": "models/gemini-3-flash-preview",
+    "max_tokens": 1000,
+    "temperature": 0.2
+  },
+  "crawler": {
+    "target_repos": ["marshmallow-code/marshmallow"],
+    "max_prs": 50,
+    "min_docstring_length": 30,
+    "require_test_files": true
+  },
+  "executor": {
+    "timeout_seconds": 30,
+    "use_docker": false
+  },
+  "mutation": {
+    "enabled": true,
+    "mutmut_timeout": 120,
+    "mutmut_run_timeout": 1800,
+    "mutmut_runner": "python -m pytest tests/ -x -q --tb=no",
+    "max_mutants_per_function": 50
+  },
+  "cache_dir": ".cache",
+  "output_dir": "data/outputs",
+  "results_dir": "data/results"
+}

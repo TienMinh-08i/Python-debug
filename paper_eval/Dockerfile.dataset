@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+WORKDIR /workspace
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY bug_detector/requirements.txt /tmp/bug_detector-requirements.txt
+RUN pip install --no-cache-dir -r /tmp/bug_detector-requirements.txt \
+    openai \
+    evalplus \
+    hydra-core \
+    omegaconf \
+    python-decouple
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONUTF8=1
+ENV PYTHONIOENCODING=utf-8
+ENV PYTHONPATH=/workspace:/workspace/bug_detector:/workspace/specmind_pr_eval:/workspace/specmind_marshmallow_eval/specmind_core:/workspace/paper_eval
+
+CMD ["python", "-m", "paper_eval.run_dataset_eval", "--help"]

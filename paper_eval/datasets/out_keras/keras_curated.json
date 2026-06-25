@@ -1,0 +1,272 @@
+{
+  "MyDataset/0": {
+    "task_id": "MyDataset/0",
+    "prompt": "def rot90(array, k=1, axes=(0, 1)):\n    \"\"\"Rotate an array by 90 degrees in the specified plane.\n    \"\"\"\n",
+    "canonical_solution": "    if array.ndim < 2:\n        raise ValueError(\n            f\"Input array must have at least 2 dimensions. \"\n            f\"Received: array.ndim={array.ndim}\"\n        )\n    if len(axes) != 2 or axes[0] == axes[1]:\n        raise ValueError(\n            f\"Invalid axes: {axes}. Axes must be a tuple of \"\n            \"two different dimensions.\"\n        )\n    return jnp.rot90(array, k=k, axes=axes)\n",
+    "entry_point": "rot90",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/1": {
+    "task_id": "MyDataset/1",
+    "prompt": "def cross(x1, x2, axisa=-1, axisb=-1, axisc=-1, axis=None):\n    \"\"\"Returns the cross product of two (arrays of) vectors.\n    \n        The cross product of `x1` and `x2` in R^3 is a vector\n        perpendicular to both `x1` and `x2`. If `x1` and `x2` are arrays of\n        vectors, the vectors are defined by the last axis of `x1` and `x2`\n        by default, and these axes can have dimensions 2 or 3.\n    \n        Where the dimension of either `x1` or `x2` is 2, the third component of\n        the input vector is assumed to be zero and the cross product calculated\n        accordingly.\n    \n        In cases where both input vectors have dimension 2, the z-component of\n        the cross product is returned.\n    \n        Args:\n            x1: Components of the first vector(s).\n            x2: Components of the second vector(s).\n            axisa: Axis of `x1` that defines the vector(s). Defaults to `-1`.\n            axisb: Axis of `x2` that defines the vector(s). Defaults to `-1`.\n            axisc: Axis of the result containing the cross product vector(s).\n                Ignored if both input vectors have dimension 2, as the return is\n                scalar. By default, the last axis.\n            axis: If defined, the axis of `x1`, `x2` and the result that\n                defines the vector(s) and cross product(s). Overrides `axisa`,\n                `axisb` and `axisc`.\n    \n        Note:\n            Torch backend does not support two dimensional vectors, or the\n            arguments `axisa`, `axisb` and `axisc`. Use `axis` instead.\n    \n        Returns:\n            Vector cross product(s).\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x1, x2)):\n        return Cross(\n            axisa=axisa, axisb=axisb, axisc=axisc, axis=axis\n        ).symbolic_call(x1, x2)\n    return backend.numpy.cross(\n        x1,\n        x2,\n        axisa=axisa,\n        axisb=axisb,\n        axisc=axisc,\n        axis=axis,\n    )\n",
+    "entry_point": "cross",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/2": {
+    "task_id": "MyDataset/2",
+    "prompt": "def allclose(x1, x2, rtol=1e-5, atol=1e-8, equal_nan=False):\n    \"\"\"Returns True if two arrays are element-wise equal within a tolerance.\n    \n        The tolerance values are positive, typically very small numbers.  The\n        relative difference (`rtol * abs(b)`) and the absolute difference\n        `atol` are added together to compare against the absolute difference\n        between `a` and `b`.\n    \n        Args:\n            x1: First input tensor.\n            x2: Second input tensor.\n            rtol: The relative tolerance parameter (see Notes).\n            atol: The absolute tolerance parameter (see Notes).\n            equal_nan: Whether to compare NaN's as equal.  If True, NaN's in\n                `a` will be considered equal to NaN's in `b` in the output array.\n    \n        Returns:\n            True if the two arrays are equal within the given tolerance;\n            False otherwise.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x1, x2)):\n        return AllClose(\n            rtol=rtol, atol=atol, equal_nan=equal_nan\n        ).symbolic_call(x1, x2)\n    return backend.numpy.allclose(\n        x1, x2, rtol=rtol, atol=atol, equal_nan=equal_nan\n    )\n",
+    "entry_point": "allclose",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/3": {
+    "task_id": "MyDataset/3",
+    "prompt": "def arccos(x):\n    \"\"\"Trigonometric inverse cosine, element-wise.\n    \n        The inverse of `cos` so that, if `y = cos(x)`, then `x = arccos(y)`.\n    \n        Args:\n            x: Input tensor.\n    \n        Returns:\n            Tensor of the angle of the ray intersecting the unit circle at the given\n            x-coordinate in radians `[0, pi]`.\n    \n        Example:\n        >>> x = keras.ops.convert_to_tensor([1, -1])\n        >>> keras.ops.arccos(x)\n        array([0.0, 3.1415927], dtype=float32)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Arccos().symbolic_call(x)\n    return backend.numpy.arccos(x)\n",
+    "entry_point": "arccos",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/4": {
+    "task_id": "MyDataset/4",
+    "prompt": "def isclose(x1, x2, rtol=1e-5, atol=1e-8, equal_nan=False):\n    \"\"\"Return whether two tensors are element-wise almost equal.\n    \n        Args:\n            x1: First input tensor.\n            x2: Second input tensor.\n            rtol: Relative tolerance.\n            atol: Absolute tolerance.\n            equal_nan: If `True`, element-wise NaNs are considered equal.\n    \n        Returns:\n            Output boolean tensor.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x1, x2)):\n        return Isclose(equal_nan=equal_nan).symbolic_call(x1, x2, rtol, atol)\n    return backend.numpy.isclose(x1, x2, rtol, atol, equal_nan)\n",
+    "entry_point": "isclose",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/5": {
+    "task_id": "MyDataset/5",
+    "prompt": "def arccosh(x):\n    \"\"\"Inverse hyperbolic cosine, element-wise.\n    \n        Arguments:\n            x: Input tensor.\n    \n        Returns:\n            Output tensor of same shape as x.\n    \n        Example:\n        >>> x = keras.ops.convert_to_tensor([10, 100])\n        >>> keras.ops.arccosh(x)\n        array([2.993223, 5.298292], dtype=float32)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Arccosh().symbolic_call(x)\n    return backend.numpy.arccosh(x)\n",
+    "entry_point": "arccosh",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/6": {
+    "task_id": "MyDataset/6",
+    "prompt": "def transpose(x, axes=None):\n    \"\"\"Returns a tensor with `axes` transposed.\n    \n        Args:\n            x: Input tensor.\n            axes: Sequence of integers. Permutation of the dimensions of `x`.\n                By default, the order of the axes are reversed.\n    \n        Returns:\n            `x` with its axes permuted.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Transpose(axes=axes).symbolic_call(x)\n    return backend.numpy.transpose(x, axes=axes)\n",
+    "entry_point": "transpose",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/7": {
+    "task_id": "MyDataset/7",
+    "prompt": "def zeros_like(x, dtype=None):\n    \"\"\"Return a tensor of zeros with the same shape and type as `x`.\n    \n        Args:\n            x: Input tensor.\n            dtype: Overrides the data type of the result.\n    \n        Returns:\n            A tensor of zeros with the same shape and type as `x`.\n    \"\"\"\n",
+    "canonical_solution": "    dtype = None if dtype is None else backend.standardize_dtype(dtype)\n    if any_symbolic_tensors((x,)):\n        return ZerosLike(dtype=dtype).symbolic_call(x)\n    return backend.numpy.zeros_like(x, dtype=dtype)\n",
+    "entry_point": "zeros_like",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/8": {
+    "task_id": "MyDataset/8",
+    "prompt": "def cosh(x):\n    \"\"\"Hyperbolic cosine, element-wise.\n    \n        Arguments:\n            x: Input tensor.\n    \n        Returns:\n            Output tensor of same shape as `x`.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Cosh().symbolic_call(x)\n    return backend.numpy.cosh(x)\n",
+    "entry_point": "cosh",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/9": {
+    "task_id": "MyDataset/9",
+    "prompt": "def isposinf(x):\n    \"\"\"Test element-wise for positive infinity.\n    \n        Args:\n            x: Input tensor.\n    \n        Returns:\n            Output boolean tensor.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Isposinf().symbolic_call(x)\n    return backend.numpy.isposinf(x)\n",
+    "entry_point": "isposinf",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/10": {
+    "task_id": "MyDataset/10",
+    "prompt": "def cos(x):\n    \"\"\"Cosine, element-wise.\n    \n        Args:\n            x: Input tensor.\n    \n        Returns:\n            The corresponding cosine values.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Cos().symbolic_call(x)\n    return backend.numpy.cos(x)\n",
+    "entry_point": "cos",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/11": {
+    "task_id": "MyDataset/11",
+    "prompt": "def histogram(x, bins=10, range=None):\n    \"\"\"Computes a histogram of the data tensor `x`.\n    \n        Note: the `tf.histogram_fixed_width()` and\n        `tf.histogram_fixed_width_bins()` functions\n        yield slight numerical differences for some edge cases.\n    \"\"\"\n",
+    "canonical_solution": "    x = tf.convert_to_tensor(x, dtype=x.dtype)\n\n    # Handle the range argument\n    if range is None:\n        min_val = tf.reduce_min(x)\n        max_val = tf.reduce_max(x)\n    else:\n        min_val, max_val = range\n\n    x = tf.boolean_mask(x, (x >= min_val) & (x <= max_val))\n    bin_edges = tf.linspace(min_val, max_val, bins + 1)\n    bin_edges = tf.cast(bin_edges, x.dtype)\n    bin_indices = tf.searchsorted(bin_edges[1:-1], x, side=\"right\")\n\n    # tf.math.bincount does not work with XLA in this case. So, we use\n    # `scatter_nd`.\n    bin_counts = tf.scatter_nd(\n        indices=tf.expand_dims(bin_indices, axis=-1),\n        updates=tf.ones_like(bin_indices, dtype=x.dtype),\n        shape=(bins,),\n    )\n    return bin_counts, bin_edges\n",
+    "entry_point": "histogram",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/12": {
+    "task_id": "MyDataset/12",
+    "prompt": "def rot90(array, k=1, axes=(0, 1)):\n    \"\"\"Rotate an array by 90 degrees in the specified plane using PyTorch.\n    \n        Args:\n            array: Input tensor\n            k: Number of 90-degree rotations (default=1)\n            axes: Tuple of two axes that define the\n                plane of rotation (defaults to `(0, 1)`).\n    \n        Returns:\n            Rotated tensor\n    \"\"\"\n",
+    "canonical_solution": "    array = convert_to_tensor(array)\n\n    if array.ndim < 2:\n        raise ValueError(\n            \"Input array must have at least 2 dimensions. \"\n            f\"Received: array.ndim={array.ndim}\"\n        )\n    if len(axes) != 2 or axes[0] == axes[1]:\n        raise ValueError(\n            f\"Invalid axes: {axes}. Axes must be a tuple \"\n            \"of two different dimensions.\"\n        )\n\n    axes = tuple(axis if axis >= 0 else array.ndim + axis for axis in axes)\n\n    if not builtins.all(0 <= axis < array.ndim for axis in axes):\n        raise ValueError(\n            f\"Invalid axes {axes} for tensor with {array.ndim} dimensions\"\n        )\n\n    rotated = torch.rot90(array, k=k, dims=axes)\n    if isinstance(array, np.ndarray):\n        rotated = rotated.cpu().numpy()\n\n    return rotated\n",
+    "entry_point": "rot90",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/13": {
+    "task_id": "MyDataset/13",
+    "prompt": "def copy(x):\n    \"\"\"Returns a copy of `x`.\n    \n        Args:\n            x: Input tensor.\n    \n        Returns:\n            A copy of `x`.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Copy().symbolic_call(x)\n    return backend.numpy.copy(x)\n",
+    "entry_point": "copy",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/14": {
+    "task_id": "MyDataset/14",
+    "prompt": "def argpartition(x, kth, axis=-1):\n    \"\"\"Performs an indirect partition along the given axis.\n    \n        It returns an array\n        of indices of the same shape as `x` that index data along the given axis\n        in partitioned order.\n    \n        Args:\n            a: Array to sort.\n            kth: Element index to partition by.\n                The k-th element will be in its final sorted position and all\n                smaller elements will be moved before it and all larger elements\n                behind it. The order of all elements in the partitions is undefined.\n                If provided with a sequence of k-th it will partition all of them\n                into their sorted position at once.\n            axis: Axis along which to sort. The default is -1 (the last axis).\n                If `None`, the flattened array is used.\n    \n        Returns:\n            Array of indices that partition `x` along the specified `axis`.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Argpartition(kth, axis).symbolic_call(x)\n    return backend.numpy.argpartition(x, kth, axis)\n",
+    "entry_point": "argpartition",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/15": {
+    "task_id": "MyDataset/15",
+    "prompt": "def unique(\n    x,\n    sorted=True,\n    return_index=False,\n    return_inverse=False,\n    return_counts=False,\n    axis=None,\n    size=None,\n    fill_value=None,\n):\n    \"\"\"Finds the unique elements of a tensor.\n    \n        This function returns the unique elements of an array, optionally sorted.\n        When `size` is provided, the output shape is fixed, making it compatible\n        with JIT compilation (e.g., JAX, TensorFlow Graph Mode).\n    \n        Args:\n            x: Input tensor.\n            sorted: Whether to sort the unique elements in ascending order.\n                Defaults to `True`.\n            return_index: If `True`, also return the indices of the first\n                occurrence of each unique element in `x`. Defaults to `False`.\n            return_inverse: If `True`, also return the indices of the unique tensor\n                (for the specified axis, if provided) that can be used to\n                reconstruct `x`. Defaults to `False`.\n            return_counts: If `True`, also return the number of times each\n                unique item appears in `x`. Defaults to `False`.\n            axis: The axis to operate on. If `None`, `x` will be flattened.\n                If an integer, the subarrays indexed by the given axis will be\n                treated as the elements. Defaults to `None`.\n            size: Optional integer. If provided, the output will always have this\n                fixed size. If the number of unique elements is less than `size`,\n                the output will be padded with `fill_value`. If greater, the\n                output will be truncated.\n            fill_value: The value used to pad the output when `size` is specified\n                and there are fewer unique elements than `size`. Defaults to `0`.\n    \n        Returns:\n            A tensor or a tuple of tensors.\n            - `unique_values`: The unique values. Shape is `(size,)` if `size` is\n              provided and `axis=None`.\n            - `unique_index` (optional): The indices of the first occurrence of each\n              unique element in `x`. Only provided if `return_index` is `True`.\n            - `unique_inverse` (optional): The indices to reconstruct the original\n              array. Only provided if `return_inverse` is `True`.\n            - `unique_counts` (optional): The number of occurrences of each unique\n              value. Only provided if `return_counts` is `True`.\n    \n        Examples:\n    \n        >>> x = keras.ops.convert_to_tensor([3, 1, 2, 1, 3, 2])\n        >>> keras.ops.unique(x)\n        array([1, 2, 3], dtype=int32)\n    \n        Fixed size output with padding (JIT-compatible):\n    \n        >>> x = keras.ops.convert_to_tensor([3, 1, 2, 1])\n        >>> values, counts = keras.ops.unique(x, size=5, fill_value=0,\n        ...                                   return_counts=True)\n        >>> values\n        array([1, 2, 3, 0, 0], dtype=int32)\n        >>> counts\n        array([2, 1, 1, 0, 0], dtype=int32)\n    \n        Fixed size output with truncation:\n    \n        >>> x = keras.ops.convert_to_tensor([3, 1, 2, 1])\n        >>> keras.ops.unique(x, size=2)\n        array([1, 2], dtype=int32)\n    \n        Return unique rows of a 2D array:\n    \n        >>> x = keras.ops.convert_to_tensor([[1, 0, 0], [0, 1, 0], [1, 0, 0]])\n        >>> keras.ops.unique(x, axis=0)\n        array([[0, 1, 0],\n               [1, 0, 0]], dtype=int32)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Unique(\n            sorted=sorted,\n            return_index=return_index,\n            return_inverse=return_inverse,\n            return_counts=return_counts,\n            axis=axis,\n            size=size,\n            fill_value=fill_value,\n        ).symbolic_call(x)\n    return backend.numpy.unique(\n        backend.convert_to_tensor(x),\n        sorted=sorted,\n        return_index=return_index,\n        return_inverse=return_inverse,\n        return_counts=return_counts,\n        axis=axis,\n        size=size,\n        fill_value=fill_value,\n    )\n",
+    "entry_point": "unique",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/16": {
+    "task_id": "MyDataset/16",
+    "prompt": "def einsum(subscripts, *operands, **kwargs):\n    \"\"\"Evaluates the Einstein summation convention on the operands.\n    \n        Args:\n            subscripts: Specifies the subscripts for summation as comma separated\n                list of subscript labels. An implicit (classical Einstein\n                summation) calculation is performed unless the explicit indicator\n                `->` is included as well as subscript labels of the precise\n                output form.\n            operands: The operands to compute the Einstein sum of.\n    \n        Returns:\n            The calculation based on the Einstein summation convention.\n    \n        Example:\n        >>> from keras.src import ops\n        >>> a = ops.arange(25).reshape(5, 5)\n        >>> b = ops.arange(5)\n        >>> c = ops.arange(6).reshape(2, 3)\n    \n        Trace of a matrix:\n    \n        >>> ops.einsum(\"ii\", a)\n        60\n        >>> ops.einsum(a, [0, 0])\n        60\n        >>> ops.trace(a)\n        60\n    \n        Extract the diagonal:\n    \n        >>> ops.einsum(\"ii -> i\", a)\n        array([ 0,  6, 12, 18, 24])\n        >>> ops.einsum(a, [0, 0], [0])\n        array([ 0,  6, 12, 18, 24])\n        >>> ops.diag(a)\n        array([ 0,  6, 12, 18, 24])\n    \n        Sum over an axis:\n    \n        >>> ops.einsum(\"ij -> i\", a)\n        array([ 10,  35,  60,  85, 110])\n        >>> ops.einsum(a, [0, 1], [0])\n        array([ 10,  35,  60,  85, 110])\n        >>> ops.sum(a, axis=1)\n        array([ 10,  35,  60,  85, 110])\n    \n        For higher dimensional tensors summing a single axis can be done\n        with ellipsis:\n    \n        >>> ops.einsum(\"...j -> ...\", a)\n        array([ 10,  35,  60,  85, 110])\n        >>> np.einsum(a, [..., 1], [...])\n        array([ 10,  35,  60,  85, 110])\n    \n        Compute a matrix transpose or reorder any number of axes:\n    \n        >>> ops.einsum(\"ji\", c)\n        array([[0, 3],\n               [1, 4],\n               [2, 5]])\n        >>> ops.einsum(\"ij -> ji\", c)\n        array([[0, 3],\n               [1, 4],\n               [2, 5]])\n        >>> ops.einsum(c, [1, 0])\n        array([[0, 3],\n               [1, 4],\n               [2, 5]])\n        >>> ops.transpose(c)\n        array([[0, 3],\n               [1, 4],\n               [2, 5]])\n    \n        Matrix vector multiplication:\n    \n        >>> ops.einsum(\"ij, j\", a, b)\n        array([ 30,  80, 130, 180, 230])\n        >>> ops.einsum(a, [0, 1], b, [1])\n        array([ 30,  80, 130, 180, 230])\n        >>> ops.einsum(\"...j, j\", a, b)\n        array([ 30,  80, 130, 180, 230])\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors(operands):\n        return Einsum(subscripts).symbolic_call(*operands, **kwargs)\n    return backend.numpy.einsum(subscripts, *operands, **kwargs)\n",
+    "entry_point": "einsum",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/17": {
+    "task_id": "MyDataset/17",
+    "prompt": "def arange(start, stop=None, step=None, dtype=None):\n    \"\"\"Return evenly spaced values within a given interval.\n    \n        `arange` can be called with a varying number of positional arguments:\n        * `arange(stop)`: Values are generated within the half-open interval\n            `[0, stop)` (in other words, the interval including start but excluding\n            stop).\n        * `arange(start, stop)`: Values are generated within the half-open interval\n            `[start, stop)`.\n        * `arange(start, stop, step)`: Values are generated within the half-open\n            interval `[start, stop)`, with spacing between values given by step.\n    \n        Args:\n            start: Integer or real, representing the start of the interval. The\n                interval includes this value.\n            stop: Integer or real, representing the end of the interval. The\n                interval does not include this value, except in some cases where\n                `step` is not an integer and floating point round-off affects the\n                length of `out`. Defaults to `None`.\n            step: Integer or real, represent the spacing between values. For any\n                output `out`, this is the distance between two adjacent values,\n                `out[i+1] - out[i]`. The default step size is 1. If `step` is\n                specified as a position argument, `start` must also be given.\n            dtype: The type of the output array. If `dtype` is not given, infer the\n                data type from the other input arguments.\n    \n        Returns:\n            Tensor of evenly spaced values.\n            For floating point arguments, the length of the result is\n            `ceil((stop - start)/step)`. Because of floating point overflow, this\n            rule may result in the last element of out being greater than stop.\n    \n        Examples:\n        >>> keras.ops.arange(3)\n        array([0, 1, 2], dtype=int32)\n    \n        >>> keras.ops.arange(3.0)\n        array([0., 1., 2.], dtype=float32)\n    \n        >>> keras.ops.arange(3, 7)\n        array([3, 4, 5, 6], dtype=int32)\n    \n        >>> keras.ops.arange(3, 7, 2)\n        array([3, 5], dtype=int32)\n    \"\"\"\n",
+    "canonical_solution": "    dtype = None if dtype is None else backend.standardize_dtype(dtype)\n    if any_symbolic_tensors((start, stop, step)):\n        return Arange(dtype=dtype).symbolic_call(start, stop, step=step)\n    return backend.numpy.arange(start, stop, step=step, dtype=dtype)\n",
+    "entry_point": "arange",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/18": {
+    "task_id": "MyDataset/18",
+    "prompt": "def average(x, axis=None, weights=None):\n    \"\"\"Compute the weighted average along the specified axis.\n    \n        Args:\n            x: Input tensor.\n            axis: Integer along which to average `x`. The default, `axis=None`,\n                will average over all of the elements of the input tensor. If axis\n                is negative it counts from the last to the first axis.\n            weights: Tensor of weights associated with the values in `x`. Each\n                value in `x` contributes to the average according to its\n                associated weight. The weights array can either be 1-D (in which\n                case its length must be the size of a along the given axis) or of\n                the same shape as `x`. If `weights=None` (default), then all data\n                in `x` are assumed to have a weight equal to one.\n    \n                The 1-D calculation is: `avg = sum(a * weights) / sum(weights)`.\n                The only constraint on weights is that `sum(weights)` must not be 0.\n    \n        Returns:\n            Return the average along the specified axis.\n    \n        Examples:\n        >>> data = keras.ops.arange(1, 5)\n        >>> data\n        array([1, 2, 3, 4], dtype=int32)\n        >>> keras.ops.average(data)\n        array(2.5, dtype=float32)\n        >>> keras.ops.average(\n        ...     keras.ops.arange(1, 11),\n        ...     weights=keras.ops.arange(10, 0, -1)\n        ... )\n        array(4., dtype=float32)\n    \n        >>> data = keras.ops.arange(6).reshape((3, 2))\n        >>> data\n        array([[0, 1],\n               [2, 3],\n               [4, 5]], dtype=int32)\n        >>> keras.ops.average(\n        ...     data,\n        ...     axis=1,\n        ...     weights=keras.ops.array([1./4, 3./4])\n        ... )\n        array([0.75, 2.75, 4.75], dtype=float32)\n        >>> keras.ops.average(\n        ...     data,\n        ...     weights=keras.ops.array([1./4, 3./4])\n        ... )\n        Traceback (most recent call last):\n            ...\n        ValueError: Axis must be specified when shapes of a and weights differ.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Average(axis=axis).symbolic_call(x, weights=weights)\n    return backend.numpy.average(x, axis=axis, weights=weights)\n",
+    "entry_point": "average",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/19": {
+    "task_id": "MyDataset/19",
+    "prompt": "def nanquantile(x, q, axis=None, method=\"linear\", keepdims=False):\n    \"\"\"Compute the q-th quantile(s) of the data along the specified axis,\n        while ignoring NaNs.\n    \n        Args:\n            x: Input tensor.\n            q: Probability or sequence of probabilities for the quantiles to\n                compute. Values must be between 0 and 1 inclusive.\n            axis: Axis or axes along which the quantiles are computed. Defaults to\n                `axis=None` which is to compute the quantile(s) along a flattened\n                version of the array.\n            method: A string specifies the method to use for estimating the\n                quantile. Available methods are `\"linear\"`, `\"lower\"`, `\"higher\"`,\n                `\"midpoint\"`, and `\"nearest\"`. Defaults to `\"linear\"`.\n                If the desired quantile lies between two data points `i < j`:\n                - `\"linear\"`: `i + (j - i) * fraction`, where fraction is the\n                    fractional part of the index surrounded by `i` and `j`.\n                - `\"lower\"`: `i`.\n                - `\"higher\"`: `j`.\n                - `\"midpoint\"`: `(i + j) / 2`\n                - `\"nearest\"`: `i` or `j`, whichever is nearest.\n            keepdims: If this is set to `True`, the axes which are reduced\n                are left in the result as dimensions with size one.\n    \n        Returns:\n            The quantile(s) ignoring NaNs.\n    \n        Examples:\n        >>> import keras\n        >>> from keras import ops\n        >>> x = keras.ops.array([1., 2., 3., 4.])\n        >>> keras.ops.nanquantile(x, 0.5)\n        2.5\n        >>> x = keras.ops.array([1., 2., float(\"nan\"), 4.])\n        >>> keras.ops.nanquantile(x, 0.5)\n        2.0\n        >>> x = keras.ops.array([1., 2., 3., 4.])\n        >>> keras.ops.nanquantile(x, [0.25, 0.75])\n        array([1.75, 3.25])\n        >>> x = keras.ops.array([[1., 2., float(\"nan\")],\n        ...                      [4., 5., 6.]])\n        >>> keras.ops.nanquantile(x, 0.5, axis=1)\n        array([1.5, 5.0])\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x, q)):\n        return Nanquantile(\n            axis=axis, method=method, keepdims=keepdims\n        ).symbolic_call(x, q)\n\n    return backend.numpy.nanquantile(\n        x, q, axis=axis, method=method, keepdims=keepdims\n    )\n",
+    "entry_point": "nanquantile",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/20": {
+    "task_id": "MyDataset/20",
+    "prompt": "def percentile(x, q, axis=None, method=\"linear\", keepdims=False):\n    \"\"\"Compute the q-th percentile(s) of the data along the specified axis.\n    \n        Args:\n            x: Input tensor.\n            q: Percentile or sequence of percentiles to compute.\n                Values must be between 0 and 100 inclusive.\n            axis: Axis or axes along which the percentiles are computed.\n            method: A string specifies the method to use for estimating the\n                percentile. Available methods are `\"linear\"`, `\"lower\"`, `\"higher\"`,\n                `\"midpoint\"`, and `\"nearest\"`. Defaults to `\"linear\"`.\n                If the desired percentile lies between two data points `i < j`:\n                - `\"linear\"`: `i + (j - i) * fraction`, where fraction is the\n                    fractional part of the index surrounded by `i` and `j`.\n                - `\"lower\"`: `i`.\n                - `\"higher\"`: `j`.\n                - `\"midpoint\"`: `(i + j) / 2`\n                - `\"nearest\"`: `i` or `j`, whichever is nearest.\n            keepdims: If True, reduced axes are kept with size 1.\n    \n        Returns:\n            The percentile(s). If `q` is a single percentile and `axis=None`, then\n            the result is a scalar. If multiple percentile levels are given, the\n            first axis of the result corresponds to the percentiles. The other axes\n            are the axes that remain after the reduction of `x`.\n    \n        Examples:\n        >>> import keras\n        >>> from keras import ops\n        >>> x = keras.ops.array([1., 2., 3., 4.])\n        >>> keras.ops.percentile(x, 50)\n        2.5\n        >>> x = keras.ops.array([1., 2., 3., 4.])\n        >>> keras.ops.percentile(x, [25, 75])\n        array([1.75, 3.25])\n        >>> x = keras.ops.array([[1., 2., 3.],\n        ...                      [4., 5., 6.]])\n        >>> keras.ops.percentile(x, 50, axis=1)\n        array([2., 5.])\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x, q)):\n        return Percentile(\n            axis=axis, method=method, keepdims=keepdims\n        ).symbolic_call(x, q)\n\n    return backend.numpy.percentile(\n        x, q, axis=axis, method=method, keepdims=keepdims\n    )\n",
+    "entry_point": "percentile",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/21": {
+    "task_id": "MyDataset/21",
+    "prompt": "def nanpercentile(x, q, axis=None, method=\"linear\", keepdims=False):\n    \"\"\"Compute the q-th percentile(s) of the data along the specified axis,\n        while ignoring NaNs.\n    \n        Args:\n            x: Input tensor.\n            q: Percentile or sequence of percentiles to compute.\n                Values must be between 0 and 100 inclusive.\n            axis: Axis or axes along which the percentiles are computed.\n            method: A string specifies the method to use for estimating the\n                percentile. Available methods are `\"linear\"`, `\"lower\"`, `\"higher\"`,\n                `\"midpoint\"`, and `\"nearest\"`. Defaults to `\"linear\"`.\n                If the desired percentile lies between two data points `i < j`:\n                - `\"linear\"`: `i + (j - i) * fraction`, where fraction is the\n                    fractional part of the index surrounded by `i` and `j`.\n                - `\"lower\"`: `i`.\n                - `\"higher\"`: `j`.\n                - `\"midpoint\"`: `(i + j) / 2`\n                - `\"nearest\"`: `i` or `j`, whichever is nearest.\n            keepdims: If True, reduced axes are kept with size 1.\n    \n        Returns:\n            The percentile(s) ignoring NaNs.\n    \n        Examples:\n        >>> import keras\n        >>> from keras import ops\n        >>> x = keras.ops.array([1., 2., 3., 4.])\n        >>> keras.ops.nanpercentile(x, 50)\n        2.5\n        >>> x = keras.ops.array([1., 2., float(\"nan\"), 4.])\n        >>> keras.ops.nanpercentile(x, 50)\n        2.0\n        >>> x = keras.ops.array([1., 2., 3., 4.])\n        >>> keras.ops.nanpercentile(x, [25, 75])\n        array([1.75, 3.25])\n        >>> x = keras.ops.array([[1., 2., float(\"nan\")],\n        ...                      [4., 5., 6.]])\n        >>> keras.ops.nanpercentile(x, 50, axis=1)\n        array([1.5, 5.0])\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x, q)):\n        return Nanpercentile(\n            axis=axis, method=method, keepdims=keepdims\n        ).symbolic_call(x, q)\n\n    return backend.numpy.nanpercentile(\n        x, q, axis=axis, method=method, keepdims=keepdims\n    )\n",
+    "entry_point": "nanpercentile",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/22": {
+    "task_id": "MyDataset/22",
+    "prompt": "def arctan2(x1, x2):\n    \"\"\"Element-wise arc tangent of `x1/x2` choosing the quadrant correctly.\n    \n        The quadrant (i.e., branch) is chosen so that `arctan2(x1, x2)` is the\n        signed angle in radians between the ray ending at the origin and passing\n        through the point `(1, 0)`, and the ray ending at the origin and passing\n        through the point `(x2, x1)`. (Note the role reversal: the \"y-coordinate\"\n        is the first function parameter, the \"x-coordinate\" is the second.) By IEEE\n        convention, this function is defined for `x2 = +/-0` and for either or both\n        of `x1` and `x2` `= +/-inf`.\n    \n        Args:\n            x1: First input tensor.\n            x2: Second input tensor.\n    \n        Returns:\n            Tensor of angles in radians, in the range `[-pi, pi]`.\n    \n        Examples:\n        Consider four points in different quadrants:\n        >>> x = keras.ops.convert_to_tensor([-1, +1, +1, -1])\n        >>> y = keras.ops.convert_to_tensor([-1, -1, +1, +1])\n        >>> keras.ops.arctan2(y, x) * 180 / numpy.pi\n        array([-135., -45., 45., 135.], dtype=float32)\n    \n        Note the order of the parameters. `arctan2` is defined also when x2=0 and\n        at several other points, obtaining values in the range `[-pi, pi]`:\n        >>> keras.ops.arctan2(\n        ...     keras.ops.array([1., -1.]),\n        ...     keras.ops.array([0., 0.]),\n        ... )\n        array([ 1.5707964, -1.5707964], dtype=float32)\n        >>> keras.ops.arctan2(\n        ...     keras.ops.array([0., 0., numpy.inf]),\n        ...     keras.ops.array([+0., -0., numpy.inf]),\n        ... )\n        array([0., 3.1415925, 0.7853982], dtype=float32)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x1, x2)):\n        return Arctan2().symbolic_call(x1, x2)\n    return backend.numpy.arctan2(x1, x2)\n",
+    "entry_point": "arctan2",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/23": {
+    "task_id": "MyDataset/23",
+    "prompt": "def bincount(x, weights=None, minlength=0, sparse=False):\n    \"\"\"Count the number of occurrences of each value in a tensor of integers.\n    \n        Args:\n            x: Input tensor.\n                It must be of dimension 1, and it must only contain non-negative\n                integer(s).\n            weights: Weight tensor.\n                It must have the same length as `x`. The default value is `None`.\n                If specified, `x` is weighted by it, i.e. if `n = x[i]`,\n                `out[n] += weight[i]` instead of the default behavior `out[n] += 1`.\n            minlength: An integer.\n                The default value is 0. If specified, there will be at least\n                this number of bins in the output tensor. If greater than\n                `max(x) + 1`, each value of the output at an index higher than\n                `max(x)` is set to 0.\n            sparse: Whether to return a sparse tensor; for backends that support\n                sparse tensors.\n    \n        Returns:\n            1D tensor where each element gives the number of occurrence(s) of its\n            index value in x. Its length is the maximum between `max(x) + 1` and\n            minlength.\n    \n        Examples:\n        >>> x = keras.ops.array([1, 2, 2, 3], dtype=\"uint8\")\n        >>> keras.ops.bincount(x)\n        array([0, 1, 2, 1], dtype=int32)\n        >>> weights = x / 2\n        >>> weights\n        array([0.5, 1., 1., 1.5], dtype=float64)\n        >>> keras.ops.bincount(x, weights=weights)\n        array([0., 0.5, 2., 1.5], dtype=float64)\n        >>> minlength = (keras.ops.max(x).numpy() + 1) + 2 # 6\n        >>> keras.ops.bincount(x, minlength=minlength)\n        array([0, 1, 2, 1, 0, 0], dtype=int32)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Bincount(\n            weights=weights, minlength=minlength, sparse=sparse\n        ).symbolic_call(x)\n    return backend.numpy.bincount(\n        x, weights=weights, minlength=minlength, sparse=sparse\n    )\n",
+    "entry_point": "bincount",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/24": {
+    "task_id": "MyDataset/24",
+    "prompt": "def quantile(x, q, axis=None, method=\"linear\", keepdims=False):\n    \"\"\"Compute the q-th quantile(s) of the data along the specified axis.\n    \n        Args:\n            x: Input tensor.\n            q: Probability or sequence of probabilities for the quantiles to\n                compute. Values must be between 0 and 1 inclusive.\n            axis: Axis or axes along which the quantiles are computed. Defaults to\n                `axis=None` which is to compute the quantile(s) along a flattened\n                version of the array.\n            method: A string specifies the method to use for estimating the\n                quantile. Available methods are `\"linear\"`, `\"lower\"`, `\"higher\"`,\n                `\"midpoint\"`, and `\"nearest\"`. Defaults to `\"linear\"`.\n                If the desired quantile lies between two data points `i < j`:\n                - `\"linear\"`: `i + (j - i) * fraction`, where fraction is the\n                    fractional part of the index surrounded by `i` and `j`.\n                - `\"lower\"`: `i`.\n                - `\"higher\"`: `j`.\n                - `\"midpoint\"`: `(i + j) / 2`\n                - `\"nearest\"`: `i` or `j`, whichever is nearest.\n            keepdims: If this is set to `True`, the axes which are reduce\n                are left in the result as dimensions with size one.\n    \n        Returns:\n            The quantile(s). If `q` is a single probability and `axis=None`, then\n            the result is a scalar. If multiple probabilities levels are given,\n            first axis of the result corresponds to the quantiles. The other axes\n            are the axes that remain after the reduction of `x`.\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x, q)):\n        return Quantile(\n            axis=axis, method=method, keepdims=keepdims\n        ).symbolic_call(x, q)\n    return backend.numpy.quantile(\n        x, q, axis=axis, method=method, keepdims=keepdims\n    )\n",
+    "entry_point": "quantile",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/25": {
+    "task_id": "MyDataset/25",
+    "prompt": "def diagonal(x, offset=0, axis1=0, axis2=1):\n    \"\"\"Return specified diagonals.\n    \n        If `x` is 2-D, returns the diagonal of `x` with the given offset, i.e., the\n        collection of elements of the form `x[i, i+offset]`.\n    \n        If `x` has more than two dimensions, the axes specified by `axis1`\n        and `axis2` are used to determine the 2-D sub-array whose diagonal\n        is returned.\n    \n        The shape of the resulting array can be determined by removing `axis1`\n        and `axis2` and appending an index to the right equal to the size of\n        the resulting diagonals.\n    \n        Args:\n            x: Input tensor.\n            offset: Offset of the diagonal from the main diagonal.\n                Can be positive or negative. Defaults to `0`.(main diagonal).\n            axis1: Axis to be used as the first axis of the 2-D sub-arrays.\n                Defaults to `0`.(first axis).\n            axis2: Axis to be used as the second axis of the 2-D sub-arrays.\n                Defaults to `1` (second axis).\n    \n        Returns:\n            Tensor of diagonals.\n    \n        Examples:\n        >>> from keras.src import ops\n        >>> x = ops.arange(4).reshape((2, 2))\n        >>> x\n        array([[0, 1],\n               [2, 3]])\n        >>> x.diagonal()\n        array([0, 3])\n        >>> x.diagonal(1)\n        array([1])\n    \n        >>> x = ops.arange(8).reshape((2, 2, 2))\n        >>> x\n        array([[[0, 1],\n                [2, 3]],\n               [[4, 5],\n                [6, 7]]])\n        >>> x.diagonal(0, 0, 1)\n        array([[0, 6],\n               [1, 7]])\n    \"\"\"\n",
+    "canonical_solution": "    x_ndim = len(x.shape)\n    ax1 = canonicalize_axis(axis1, x_ndim)\n    ax2 = canonicalize_axis(axis2, x_ndim)\n    if ax1 == ax2:\n        raise ValueError(\n            \"`axis1` and `axis2` cannot be the same. \"\n            f\"Received: axis1={axis1}, axis2={axis2}\"\n        )\n    if any_symbolic_tensors((x,)):\n        return Diagonal(\n            offset=offset,\n            axis1=axis1,\n            axis2=axis2,\n        ).symbolic_call(x)\n    return backend.numpy.diagonal(\n        x,\n        offset=offset,\n        axis1=axis1,\n        axis2=axis2,\n    )\n",
+    "entry_point": "diagonal",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/26": {
+    "task_id": "MyDataset/26",
+    "prompt": "def all(x, axis=None, keepdims=False):\n    \"\"\"Test whether all array elements along a given axis evaluate to `True`.\n    \n        Args:\n            x: Input tensor.\n            axis: An integer or tuple of integers that represent the axis along\n                which a logical AND reduction is performed. The default\n                (`axis=None`) is to perform a logical AND over all the dimensions\n                of the input array. `axis` may be negative, in which case it counts\n                for the last to the first axis.\n            keepdims: If `True`, axes which are reduced are left in the result as\n                dimensions with size one. With this option, the result will\n                broadcast correctly against the input array. Defaults to `False`.\n    \n        Returns:\n            The tensor containing the logical AND reduction over the `axis`.\n    \n        Examples:\n        >>> x = keras.ops.convert_to_tensor([True, False])\n        >>> keras.ops.all(x)\n        array(False, shape=(), dtype=bool)\n    \n        >>> x = keras.ops.convert_to_tensor([[True, False], [True, True]])\n        >>> keras.ops.all(x, axis=0)\n        array([ True False], shape=(2,), dtype=bool)\n    \n        `keepdims=True` outputs a tensor with dimensions reduced to one.\n        >>> x = keras.ops.convert_to_tensor([[True, False], [True, True]])\n        >>> keras.ops.all(x, keepdims=True)\n        array([[False]], shape=(1, 1), dtype=bool)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return All(axis=axis, keepdims=keepdims).symbolic_call(x)\n    return backend.numpy.all(x, axis=axis, keepdims=keepdims)\n",
+    "entry_point": "all",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/27": {
+    "task_id": "MyDataset/27",
+    "prompt": "def any(x, axis=None, keepdims=False):\n    \"\"\"Test whether any array element along a given axis evaluates to `True`.\n    \n        Args:\n            x: Input tensor.\n            axis: An integer or tuple of integers that represent the axis along\n                which a logical OR reduction is performed. The default\n                (`axis=None`) is to perform a logical OR over all the dimensions\n                of the input array. `axis` may be negative, in which case it counts\n                for the last to the first axis.\n            keepdims: If `True`, axes which are reduced are left in the result as\n                dimensions with size one. With this option, the result will\n                broadcast correctly against the input array. Defaults to `False`.\n    \n        Returns:\n            The tensor containing the logical OR reduction over the `axis`.\n    \n        Examples:\n        >>> x = keras.ops.convert_to_tensor([True, False])\n        >>> keras.ops.any(x)\n        array(True, shape=(), dtype=bool)\n    \n        >>> x = keras.ops.convert_to_tensor([[True, False], [True, True]])\n        >>> keras.ops.any(x, axis=0)\n        array([ True  True], shape=(2,), dtype=bool)\n    \n        `keepdims=True` outputs a tensor with dimensions reduced to one.\n        >>> x = keras.ops.convert_to_tensor([[True, False], [True, True]])\n        >>> keras.ops.all(x, keepdims=True)\n        array([[False]], shape=(1, 1), dtype=bool)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Any(axis=axis, keepdims=keepdims).symbolic_call(x)\n    return backend.numpy.any(x, axis=axis, keepdims=keepdims)\n",
+    "entry_point": "any",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/28": {
+    "task_id": "MyDataset/28",
+    "prompt": "def ptp(x, axis=None, keepdims=False):\n    \"\"\"Return the peak-to-peak (max - min) value of tensor elements\n        over a given axis.\n    \n        The peak-to-peak value is defined as the difference between the\n        maximum and minimum values along the specified axis.\n    \n        Args:\n            x: Input tensor.\n            axis: Axis or axes along which the peak-to-peak value is computed.\n                The default, `axis=None`, will compute the peak-to-peak value\n                over all elements in the input tensor.\n            keepdims: If this is set to `True`, the axes which are reduced\n                are left in the result as dimensions with size one.\n    \n        Returns:\n            A tensor containing the peak-to-peak values of `x` over the\n            given axis or axes.\n    \n        Examples:\n        >>> x = keras.ops.array([[1., 3., 2.],\n        ...                      [4., 0., 5.]])\n    \n        >>> # Peak-to-peak over all elements\n        >>> keras.ops.ptp(x)\n        5.0\n    \n        >>> # Peak-to-peak along axis 1\n        >>> keras.ops.ptp(x, axis=1)\n        array([2., 5.], dtype=float32)\n    \n        >>> # Peak-to-peak over multiple axes\n        >>> x = keras.ops.reshape(x, (1, 2, 3))\n        >>> keras.ops.ptp(x, axis=(1, 2))\n        array([5.], dtype=float32)\n    \n        >>> # Keep reduced dimensions\n        >>> keras.ops.ptp(x, axis=2, keepdims=True)\n        array([[[2.],\n                [5.]]], dtype=float32)\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((x,)):\n        return Ptp(axis=axis, keepdims=keepdims).symbolic_call(x)\n    return backend.numpy.ptp(x, axis=axis, keepdims=keepdims)\n",
+    "entry_point": "ptp",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  },
+  "MyDataset/29": {
+    "task_id": "MyDataset/29",
+    "prompt": "def linspace(\n    start, stop, num=50, endpoint=True, retstep=False, dtype=None, axis=0\n):\n    \"\"\"Return evenly spaced numbers over a specified interval.\n    \n        Returns `num` evenly spaced samples, calculated over the interval\n        `[start, stop]`.\n    \n        The endpoint of the interval can optionally be excluded.\n    \n        Args:\n            start: The starting value of the sequence.\n            stop: The end value of the sequence, unless `endpoint` is set to\n                `False`. In that case, the sequence consists of all but the last\n                of `num + 1` evenly spaced samples, so that `stop` is excluded.\n                Note that the step size changes when `endpoint` is `False`.\n            num: Number of samples to generate. Defaults to `50`. Must be\n                non-negative.\n            endpoint: If `True`, `stop` is the last sample. Otherwise, it is\n                not included. Defaults to `True`.\n            retstep: If `True`, return `(samples, step)`, where `step` is the\n                spacing between samples.\n            dtype: The type of the output tensor.\n            axis: The axis in the result to store the samples. Relevant only if\n                start or stop are array-like. Defaults to `0`.\n    \n        Note:\n            Torch backend does not support `axis` argument.\n    \n        Returns:\n            A tensor of evenly spaced numbers.\n            If `retstep` is `True`, returns `(samples, step)`\n    \"\"\"\n",
+    "canonical_solution": "    if any_symbolic_tensors((start, stop)):\n        return Linspace(num, endpoint, retstep, dtype, axis)(start, stop)\n    return backend.numpy.linspace(\n        start,\n        stop,\n        num=num,\n        endpoint=endpoint,\n        retstep=retstep,\n        dtype=dtype,\n        axis=axis,\n    )\n",
+    "entry_point": "linspace",
+    "base_input": [],
+    "plus_input": [],
+    "atol": 0
+  }
+}

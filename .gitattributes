@@ -1,0 +1,6 @@
+# Large benchmark/data artifacts should be tracked with Git LFS.
+*.rar filter=lfs diff=lfs merge=lfs -text
+code_mutants/**/*.zip filter=lfs diff=lfs merge=lfs -text
+datasets/**/*.jsonl filter=lfs diff=lfs merge=lfs -text
+paper_eval/datasets/**/*.jsonl filter=lfs diff=lfs merge=lfs -text
+

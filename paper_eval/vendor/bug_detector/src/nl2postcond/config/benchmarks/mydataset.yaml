@@ -1,0 +1,8 @@
+name: mydataset
+location: /home/22010759/Minhk16/nl2postcond/nl-2-postcond/nl2postcondition-fse2024/nl2postcondition_source_evalplus/tasks.json
+run_all: false
+run_only: [20,21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]
+run_except: []
+run_range: true
+run_start: "MyDataset/20"
+run_end: "MyDataset/39"
